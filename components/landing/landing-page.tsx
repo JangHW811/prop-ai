@@ -358,7 +358,7 @@ export function LandingPage() {
             </div>
             <div className="hero-stats" aria-label="핵심 수치">
               <div className="stat-item">
-                <strong>15<span>년+</span></strong>
+                <strong>15년+</strong>
                 <span>CTO 개발 경력</span>
               </div>
               <div className="stat-divider" aria-hidden="true" />
