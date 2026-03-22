@@ -446,8 +446,9 @@ export function LandingPage() {
                 <span>CTO</span>
               </div>
               <div className="cto-info">
-                <h3>장현웅 <span>CTO · 기술이사</span></h3>
-                <p className="cto-summary">모바일·웹·백엔드를 아우르는 15년+ 풀스택 기술 리더십 보유. 공공, 금융, 모빌리티, 통신, 부동산, 교육 분야의 대형 프로젝트 다수 수행.</p>
+                <p className="cto-kicker">Technical Leadership</p>
+                <h3>15년+ 풀스택 기술 총괄 <span>CTO · 기술이사</span></h3>
+                <p className="cto-summary">모바일·웹·백엔드를 아우르는 시니어 기술 리더십을 바탕으로 공공, 금융, 모빌리티, 통신, 부동산, 교육 영역의 실서비스 구축과 고도화를 주도해 왔습니다.</p>
                 <div className="tech-tags" aria-label="보유 기술 스택">
                   {techTags.map((tag) => (
                     <span className="tag" key={tag}>{tag}</span>

@@ -617,21 +617,36 @@ svg {
   font-size: 1.4rem;
   font-weight: 800;
   color: var(--text-dark);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  line-height: 1.35;
 }
 
 .cto-info h3 span {
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--primary);
   margin-left: 8px;
+}
+
+.cto-kicker {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
 
 .cto-summary {
   font-size: 0.95rem;
   color: var(--text-muted);
-  margin-bottom: 20px;
-  line-height: 1.7;
+  margin-bottom: 22px;
+  line-height: 1.8;
 }
 
 .tech-tags,
