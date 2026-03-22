@@ -2,6 +2,7 @@ import {
   Award,
   Bot,
   Briefcase,
+  Brush,
   Cloud,
   Code2,
   Coffee,
@@ -12,6 +13,7 @@ import {
   Handshake,
   Home,
   Instagram,
+  Laptop,
   LaptopMinimal,
   Lightbulb,
   Lock,
@@ -27,16 +29,14 @@ import {
   Smartphone,
   SquareStack,
   UserRound,
-  UserRoundCog,
   Users,
   Wifi,
   Wrench,
-  Laptop,
 } from "lucide-react";
 
-import { PrivacyModal } from "@/components/landing/privacy-modal";
-import { LandingInteractions } from "@/components/landing/landing-interactions";
 import { ContactForm } from "@/components/landing/contact-form";
+import { LandingInteractions } from "@/components/landing/landing-interactions";
+import { PrivacyModal } from "@/components/landing/privacy-modal";
 
 type SectionHeaderProps = {
   eyebrow: string;
@@ -64,7 +64,7 @@ const projectCards = [
   {
     icon: Smartphone,
     title: "국내 대형 모빌리티 플랫폼",
-    names: ["기아 FLEX 앱", "minda 홈페이지", "짐가니 프로젝트"],
+    names: ["기아 FLEX 앱"],
     description:
       "국내 주요 자동차 브랜드의 전용 앱 서비스 설계·구축. React Native, Java, JPA 풀스택 개발 및 네이버맵 연동, 관리자 웹 프론트엔드 구현.",
     tags: ["React Native", "Java / JPA", "PostgreSQL"],
@@ -92,7 +92,7 @@ const projectCards = [
   {
     icon: Wifi,
     title: "대형 통신사 마이데이터 시스템",
-    names: ["LG유플러스 마이데이터", "하이큐썸 플랫폼"],
+    names: ["LG유플러스 마이데이터"],
     description:
       "국내 주요 통신사의 마이데이터 시스템 구축. React 기반 하이브리드 앱 프론트엔드 설계·구축 및 공통 개발 수행.",
     tags: ["React", "TypeScript", "react-query"],
@@ -215,7 +215,7 @@ const services = [
     items: ["React / Next.js", "반응형 웹 디자인", "SEO 최적화 포함"],
   },
   {
-    icon: UserRoundCog,
+    icon: Brush,
     title: "UI/UX 기획 & 디자인",
     tone: "orange",
     description:
@@ -271,7 +271,7 @@ const processSteps = [
     description:
       "아이디어를 실제 서비스 구조와 화면 흐름으로 구체화합니다. 사용자 경험 중심의 기획 및 디자인을 완성합니다.",
     tag: "기획·디자인",
-    icon: UserRoundCog,
+    icon: Brush,
   },
   {
     number: "04",

@@ -679,6 +679,9 @@ svg {
 .service-icon,
 .skill-icon,
 .why-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 48px;
   height: 48px;
   background: var(--primary-light);
@@ -752,8 +755,14 @@ svg {
 }
 
 .service-icon {
-  width: 56px;
-  height: 56px;
+  width: 68px;
+  height: 68px;
+  border-radius: 18px;
+}
+
+.service-icon svg {
+  width: 30px;
+  height: 30px;
 }
 
 .service-icon.green {
