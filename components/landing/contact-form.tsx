@@ -11,6 +11,7 @@ import {
   type ConsultationFormValues,
   type ConsultationPayload,
 } from "@/lib/consultation-schema";
+import { supabase } from "@/lib/supabase";
 
 const allowedExtensions = [
   "pdf",
@@ -132,11 +133,37 @@ export function ContactForm() {
     setFileError(errors.join(" "));
   };
 
-  const onSubmit = (values: ConsultationFormValues) => {
+  const onSubmit = async (values: ConsultationFormValues) => {
+    let uploadedPaths: string[] = [];
+
+    if (attachedFiles.length > 0) {
+      try {
+        for (const file of attachedFiles) {
+          const fileExt = file.name.split(".").pop();
+          const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${fileExt}`;
+          const filePath = `${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from("consultations")
+            .upload(filePath, file);
+
+          if (uploadError) {
+            throw new Error(`${file.name} 업로드 실패: ${uploadError.message}`);
+          }
+
+          uploadedPaths.push(filePath);
+        }
+      } catch (err) {
+        setSubmitError(err instanceof Error ? err.message : "파일 업로드 중 오류가 발생했습니다.");
+        return;
+      }
+    }
+
     mutation.mutate({
       ...values,
       file_names: fileNames,
       file_count: attachedFiles.length,
+      file_paths: uploadedPaths.join(","),
       email: values.email?.trim() ?? "",
       company: values.company?.trim() ?? "",
       service_type: values.service_type?.trim() ?? "",

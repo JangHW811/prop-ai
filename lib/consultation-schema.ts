@@ -17,6 +17,7 @@ export const consultationSchema = z.object({
   message: z.string().trim().min(1, "상담 내용을 입력해 주세요."),
   file_names: z.string().trim().optional().default(""),
   file_count: z.number().int().min(0).max(5),
+  file_paths: z.string().trim().optional().default(""),
   agreed: z.boolean().refine((value) => value === true, "개인정보 수집·이용에 동의해 주세요."),
 });
 

@@ -47,6 +47,7 @@ export async function POST(request: Request) {
       message: parsed.data.message,
       file_names: parsed.data.file_names,
       file_count: parsed.data.file_count,
+      file_paths: parsed.data.file_paths,
       agreed: parsed.data.agreed,
     },
   ]);

@@ -5,6 +5,8 @@ interface ConsulationListProps {
   onLogout: () => void;
 }
 
+import { supabase } from "@/lib/supabase";
+
 export function ConsulationList({ consultations, onLogout }: ConsulationListProps) {
   return (
     <div className="min-h-screen bg-[var(--bg-gray)] p-4 md:p-8 font-sans flex flex-col">
@@ -71,7 +73,29 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
                       </div>
                     </td>
                     <td className="p-4 text-sm text-center">
-                      {item.file_count > 0 ? (
+                      {item.file_paths ? (
+                        <div className="flex flex-col gap-1 items-center">
+                          {item.file_paths.split(",").map((path: string, index: number) => {
+                            const { data } = supabase.storage.from("consultations").getPublicUrl(path);
+                            // Get actual filename from the saved string: {timestamp}-{random}-{name}.ext
+                            // Better yet, just show "파일 1", "파일 2" or full path briefly
+                            const originalName = item.file_names?.split(",")[index]?.trim() || `파일 ${index + 1}`;
+                            
+                            return (
+                              <a 
+                                key={path} 
+                                href={data.publicUrl} 
+                                target="_blank" 
+                                rel="noreferrer"
+                                className="inline-block bg-[var(--bg-gray)] px-2 py-0.5 rounded-[var(--radius-sm)] text-xs font-bold text-[var(--primary)] border border-[var(--border)] hover:bg-[var(--primary-light)] transition-colors"
+                                title={originalName}
+                              >
+                                다운로드 {index + 1}
+                              </a>
+                            );
+                          })}
+                        </div>
+                      ) : item.file_count > 0 ? (
                         <span className="bg-[var(--bg-gray)] px-2.5 py-1 rounded-[var(--radius-sm)] text-xs font-bold text-[var(--text-muted)] border border-[var(--border)] shadow-sm" title={item.file_names}>
                           {item.file_count}개
                         </span>
