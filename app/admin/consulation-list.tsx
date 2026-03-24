@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   CalendarClock,
   Files,
@@ -7,6 +8,7 @@ import {
   LogOut,
   MessageSquareText,
   Paperclip,
+  X,
 } from "lucide-react";
 
 import { supabase } from "@/lib/supabase";
@@ -65,6 +67,24 @@ function formatDate(value: string) {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+function formatPhone(phone?: string | null) {
+  if (!phone) return "-";
+  const cleaned = phone.replace(/[^0-9]/g, "");
+  if (cleaned.length === 11) {
+    return cleaned.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+  }
+  if (cleaned.length === 10) {
+    if (cleaned.startsWith("02")) {
+      return cleaned.replace(/(\d{2})(\d{4})(\d{4})/, "$1-$2-$3");
+    }
+    return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+  }
+  if (cleaned.length === 9) {
+    return cleaned.replace(/(\d{2})(\d{3})(\d{4})/, "$1-$2-$3");
+  }
+  return phone;
 }
 
 function isToday(value: string) {
@@ -130,6 +150,7 @@ export function ConsulationList({
   consultations,
   onLogout,
 }: ConsulationListProps) {
+  const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const totalCount = consultations.length;
   const todayCount = consultations.filter((item) =>
     isToday(item.created_at),
@@ -141,7 +162,7 @@ export function ConsulationList({
   const latestCreatedAt = consultations[0]?.created_at;
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#f1f5f9_100%)] px-8 py-12 font-sans md:px-12 md:py-14">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#f1f5f9_100%)] flex justify-center px-8 py-12 font-sans md:px-12 md:py-14">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-5 md:gap-6">
         <section className="overflow-hidden rounded-[28px] border border-[var(--border)] bg-[rgba(255,255,255,0.92)] shadow-[0_22px_50px_rgba(15,23,42,0.08)] backdrop-blur-sm mb-8">
           <div className="flex flex-col gap-5 px-8 py-6 md:px-12 md:py-9 lg:flex-row lg:items-end lg:justify-between">
@@ -264,7 +285,8 @@ export function ConsulationList({
                   return (
                     <article
                       key={item.id}
-                      className="rounded-[22px] border border-[var(--border)] bg-[var(--bg-light)] p-4 shadow-[0_10px_26px_rgba(15,23,42,0.04)]"
+                      className="cursor-pointer rounded-[22px] border border-[var(--border)] bg-[var(--bg-light)] p-4 shadow-[0_10px_26px_rgba(15,23,42,0.04)] transition-all hover:scale-[1.01] hover:shadow-md"
+                      onClick={() => setSelectedConsultation(item)}
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div>
@@ -275,7 +297,7 @@ export function ConsulationList({
                             {item.name}
                           </h3>
                           <p className="mt-1 text-sm font-semibold text-[var(--primary-dark)]">
-                            {item.phone}
+                            {formatPhone(item.phone)}
                           </p>
                         </div>
                         <span className="rounded-full bg-[var(--accent-light)] px-3 py-1.5 text-xs font-bold text-[var(--accent)]">
@@ -299,7 +321,7 @@ export function ConsulationList({
                           <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
                             상담 내용
                           </p>
-                          <p className="mt-2 whitespace-pre-wrap break-words leading-6 text-[var(--text-body)]">
+                          <p className="mt-2 line-clamp-3 whitespace-pre-wrap break-words leading-6 text-[var(--text-body)]">
                             {item.message || "문의 내용 없음"}
                           </p>
                         </div>
@@ -371,7 +393,11 @@ export function ConsulationList({
                         const attachmentCount = getAttachmentCount(item);
 
                         return (
-                          <tr key={item.id} className="group">
+                          <tr
+                            key={item.id}
+                            className="group cursor-pointer"
+                            onClick={() => setSelectedConsultation(item)}
+                          >
                             <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top text-sm font-semibold text-[var(--text-light)] transition-colors group-hover:bg-[#f7fcf9]">
                               #{item.id}
                             </td>
@@ -386,7 +412,7 @@ export function ConsulationList({
                               </div>
                             </td>
                             <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top text-sm font-bold text-[var(--primary-dark)] transition-colors group-hover:bg-[#f7fcf9]">
-                              {item.phone}
+                              {formatPhone(item.phone)}
                             </td>
                             <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top text-sm leading-6 text-[var(--text-body)] transition-colors group-hover:bg-[#f7fcf9]">
                               <p>{item.company || "-"}</p>
@@ -450,6 +476,151 @@ export function ConsulationList({
           )}
         </section>
       </div>
+
+      {/* Detail Modal */}
+      {selectedConsultation && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setSelectedConsultation(null);
+          }}
+        >
+          <div className="flex max-h-[85vh] w-full max-w-2xl flex-col overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--white)] shadow-[0_24px_60px_rgba(15,23,42,0.15)] animate-in fade-in zoom-in-95 duration-200">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--bg-light)] px-8 py-5">
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--primary)]">
+                  Consultation Detail
+                </span>
+                <h3 className="mt-1 text-lg font-extrabold text-[var(--text-dark)]">
+                  상담 신청 상세 정보
+                </h3>
+              </div>
+              <button
+                onClick={() => setSelectedConsultation(null)}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--white)] border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--bg-light)] hover:text-[var(--text-dark)] transition-colors"
+                aria-label="Modal 닫기"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="flex-1 overflow-y-auto px-8 py-6">
+              <div className="grid gap-5">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                      이름
+                    </p>
+                    <p className="mt-1 text-base font-bold text-[var(--text-dark)]">
+                      {selectedConsultation.name}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                      연락처
+                    </p>
+                    <p className="mt-1 text-base font-bold text-[var(--primary-dark)]">
+                      {formatPhone(selectedConsultation.phone)}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                      회사명 / 서비스명
+                    </p>
+                    <p className="mt-1 text-base text-[var(--text-body)]">
+                      {selectedConsultation.company || "-"}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                      이메일
+                    </p>
+                    <p className="mt-1 text-base text-[var(--text-body)]">
+                      {selectedConsultation.email || "-"}
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                    문의 유형
+                  </p>
+                  <p className="mt-1.5">
+                    <span className="inline-flex rounded-full bg-[var(--accent-light)] px-3 py-1.5 text-xs font-bold text-[var(--accent)]">
+                      {selectedConsultation.service_type || "미분류"}
+                    </span>
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                    상담 내용
+                  </p>
+                  <div className="mt-2 rounded-[18px] bg-[var(--bg-light)] p-5">
+                    <p className="whitespace-pre-wrap break-words text-sm leading-6 text-[var(--text-body)]">
+                      {selectedConsultation.message || "문의 내용 없음"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 첨부파일 */}
+                {(() => {
+                  const files = getFileEntries(selectedConsultation);
+                  return files.length > 0 ? (
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                        첨부파일 ({files.length}개)
+                      </p>
+                      <div className="mt-2 flex flex-col gap-2">
+                        {files.map((file) => (
+                          <a
+                            key={file.path}
+                            href={file.publicUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center justify-between rounded-[16px] border border-[var(--border)] bg-[var(--white)] px-4 py-3 text-sm font-medium text-[var(--primary)] transition-colors hover:bg-[var(--primary-light)]"
+                            title={file.label}
+                          >
+                            <div className="flex items-center gap-2 overflow-hidden">
+                              <Paperclip className="h-4 w-4 shrink-0" />
+                              <span className="truncate">{file.label}</span>
+                            </div>
+                            <span className="text-xs text-[var(--text-muted)]">다운로드</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
+
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                    신청 일시
+                  </p>
+                  <p className="mt-1 text-xs text-[var(--text-muted)]">
+                    {formatDate(selectedConsultation.created_at)}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="border-t border-[var(--border)] bg-[var(--bg-light)] px-8 py-4 text-right">
+              <button
+                onClick={() => setSelectedConsultation(null)}
+                className="btn-secondary !rounded-[16px] !px-5 !py-2.5 !text-sm"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
