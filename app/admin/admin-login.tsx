@@ -11,8 +11,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleLogin = () => {
         if (id === "admin" && password === "admin1234!@") {
             onLoginSuccess();
         } else {
@@ -21,9 +20,9 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[var(--bg-light)] p-4 font-sans">
+        <div className="min-h-screen flex items-center justify-center bg-[linear-gradient(180deg,#f8fafc_0%,#f1f5f9_100%)] p-4 font-sans">
             <div 
-                className="w-full max-w-md bg-[var(--white)] rounded-[var(--radius-xl)] shadow-[var(--shadow-lg)] border border-[var(--border)]"
+                className="w-full max-w-md border border-[var(--border)] bg-[rgba(255,255,255,0.94)] rounded-[var(--radius-xl)] shadow-[0_24px_52px_rgba(15,23,42,0.08)] backdrop-blur-sm"
                 style={{ padding: '3.5rem 2.5rem' }}
             >
                 <div className="flex flex-col items-center mb-10">
@@ -39,23 +38,32 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
                 
                 <form 
                     className="flex flex-col" 
-                    onSubmit={handleLogin}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleLogin();
+                    }}
                     style={{ gap: '1.5rem' }}
                 >
                     <div className="flex flex-col" style={{ gap: '1.25rem' }}>
                         <div>
-                            <label className="block text-sm font-bold text-[var(--text-body)] mb-2">아이디</label>
+                            <label htmlFor="admin-id" className="block text-sm font-bold text-[var(--text-body)] mb-2">아이디</label>
                             <input
+                                id="admin-id"
+                                name="admin-id"
                                 type="text"
+                                autoComplete="username"
                                 value={id}
                                 onChange={(e) => { setId(e.target.value); setErrorMsg(""); }}
                                 className="appearance-none relative block w-full px-4 py-3 border border-[var(--border)] placeholder-[var(--text-light)] text-[var(--text-body)] rounded-[var(--radius-md)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-mid)] focus:border-[var(--primary)] sm:text-sm bg-[var(--bg-light)] transition-colors"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold text-[var(--text-body)] mb-2">비밀번호</label>
+                            <label htmlFor="admin-password" className="block text-sm font-bold text-[var(--text-body)] mb-2">비밀번호</label>
                             <input
+                                id="admin-password"
+                                name="admin-password"
                                 type="password"
+                                autoComplete="current-password"
                                 value={password}
                                 onChange={(e) => { setPassword(e.target.value); setErrorMsg(""); }}
                                 className="appearance-none relative block w-full px-4 py-3 border border-[var(--border)] placeholder-[var(--text-light)] text-[var(--text-body)] rounded-[var(--radius-md)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-mid)] focus:border-[var(--primary)] sm:text-sm bg-[var(--bg-light)] transition-colors"
