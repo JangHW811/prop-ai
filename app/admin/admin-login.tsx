@@ -13,7 +13,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        if (id === "admin" && password === "1234") {
+        if (id === "admin" && password === "admin1234!@") {
             onLoginSuccess();
         } else {
             setErrorMsg("아이디 또는 비밀번호가 일치하지 않습니다.");
