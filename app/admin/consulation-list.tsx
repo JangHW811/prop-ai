@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   CalendarClock,
   Files,
@@ -10,6 +9,7 @@ import {
   Paperclip,
   X,
 } from "lucide-react";
+import { useState } from "react";
 
 import { supabase } from "@/lib/supabase";
 
@@ -150,7 +150,8 @@ export function ConsulationList({
   consultations,
   onLogout,
 }: ConsulationListProps) {
-  const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
+  const [selectedConsultation, setSelectedConsultation] =
+    useState<Consultation | null>(null);
   const totalCount = consultations.length;
   const todayCount = consultations.filter((item) =>
     isToday(item.created_at),
@@ -590,7 +591,9 @@ export function ConsulationList({
                               <Paperclip className="h-4 w-4 shrink-0" />
                               <span className="truncate">{file.label}</span>
                             </div>
-                            <span className="text-xs text-[var(--text-muted)]">다운로드</span>
+                            <span className="text-xs text-[var(--text-muted)]">
+                              다운로드
+                            </span>
                           </a>
                         ))}
                       </div>
