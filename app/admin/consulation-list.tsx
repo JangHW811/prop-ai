@@ -94,7 +94,8 @@ function StatCard({
       ? "border-[color:rgba(3,199,90,0.14)] bg-[linear-gradient(135deg,#03c75a_0%,#02a94b_100%)] text-white"
       : "border-[var(--border)] bg-[var(--white)] text-[var(--text-dark)]";
 
-  const mutedClasses = tone === "accent" ? "text-white/72" : "text-[var(--text-muted)]";
+  const mutedClasses =
+    tone === "accent" ? "text-white/72" : "text-[var(--text-muted)]";
   const iconClasses =
     tone === "accent"
       ? "bg-white/16 text-white"
@@ -106,8 +107,14 @@ function StatCard({
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className={`text-xs font-bold uppercase tracking-[0.14em] ${mutedClasses}`}>{label}</p>
-          <p className="mt-3 text-2xl font-extrabold tracking-[-0.03em]">{value}</p>
+          <p
+            className={`text-xs font-bold uppercase tracking-[0.14em] ${mutedClasses}`}
+          >
+            {label}
+          </p>
+          <p className="mt-3 text-2xl font-extrabold tracking-[-0.03em]">
+            {value}
+          </p>
         </div>
         <div
           className={`flex h-11 w-11 items-center justify-center rounded-[16px] ${iconClasses}`}
@@ -119,9 +126,14 @@ function StatCard({
   );
 }
 
-export function ConsulationList({ consultations, onLogout }: ConsulationListProps) {
+export function ConsulationList({
+  consultations,
+  onLogout,
+}: ConsulationListProps) {
   const totalCount = consultations.length;
-  const todayCount = consultations.filter((item) => isToday(item.created_at)).length;
+  const todayCount = consultations.filter((item) =>
+    isToday(item.created_at),
+  ).length;
   const attachmentsCount = consultations.reduce(
     (sum, item) => sum + getAttachmentCount(item),
     0,
@@ -146,7 +158,8 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
                     상담 신청 관리
                   </h1>
                   <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--text-muted)] md:text-[15px]">
-                    최근 접수순으로 상담 요청을 빠르게 확인하고, 첨부 파일과 핵심 정보를 한 화면에서 정리해 볼 수 있습니다.
+                    최근 접수순으로 상담 요청을 빠르게 확인하고, 첨부 파일과
+                    핵심 정보를 한 화면에서 정리해 볼 수 있습니다.
                   </p>
                 </div>
               </div>
@@ -158,10 +171,15 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
                   Last update
                 </span>
                 <span className="mt-1 block font-semibold text-[var(--text-body)]">
-                  {latestCreatedAt ? formatDate(latestCreatedAt) : "접수 내역 없음"}
+                  {latestCreatedAt
+                    ? formatDate(latestCreatedAt)
+                    : "접수 내역 없음"}
                 </span>
               </div>
-              <button onClick={onLogout} className="btn-secondary !rounded-[18px] !px-5 !py-3 !text-sm !font-bold">
+              <button
+                onClick={onLogout}
+                className="btn-secondary !rounded-[18px] !px-5 !py-3 !text-sm !font-bold"
+              >
                 <LogOut className="h-4 w-4" />
                 로그아웃
               </button>
@@ -170,13 +188,21 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
         </section>
 
         <section className="grid gap-10 md:grid-cols-2 xl:grid-cols-4">
-          <StatCard icon={<Inbox className="h-5 w-5" />} label="Total Requests" value={`${totalCount}건`} />
+          <StatCard
+            icon={<Inbox className="h-5 w-5" />}
+            label="Total Requests"
+            value={`${totalCount}건`}
+          />
           <StatCard
             icon={<CalendarClock className="h-5 w-5" />}
             label="Received Today"
             value={`${todayCount}건`}
           />
-          <StatCard icon={<Paperclip className="h-5 w-5" />} label="Attachments" value={`${attachmentsCount}개`} />
+          <StatCard
+            icon={<Paperclip className="h-5 w-5" />}
+            label="Attachments"
+            value={`${attachmentsCount}개`}
+          />
           <StatCard
             icon={<Files className="h-5 w-5" />}
             label="Review Queue"
@@ -186,14 +212,17 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
         </section>
 
         <section className="overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--white)] shadow-[0_24px_52px_rgba(15,23,42,0.08)]">
-            <div className="flex flex-col gap-4 border-b border-[var(--border)] px-8 py-8 md:px-12 md:py-9 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col gap-4 border-b border-[var(--border)] px-8 py-8 md:px-12 md:py-9 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--primary)]">Consultation List</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--primary)]">
+                Consultation List
+              </p>
               <h2 className="mt-2 text-xl font-extrabold tracking-[-0.02em] text-[var(--text-dark)]">
                 접수 내역 {totalCount}건
               </h2>
               <p className="mt-2 text-sm text-[var(--text-muted)]">
-                이름, 연락처, 문의 유형, 첨부 파일을 빠르게 훑어보도록 정보 밀도를 정리했습니다.
+                이름, 연락처, 문의 유형, 첨부 파일을 빠르게 훑어보도록 정보
+                밀도를 정리했습니다.
               </p>
             </div>
 
@@ -210,15 +239,18 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
             </div>
           </div>
 
-            {totalCount === 0 ? (
+          {totalCount === 0 ? (
             <div className="px-5 py-16 md:px-8 md:py-20">
               <div className="mx-auto flex max-w-md flex-col items-center rounded-[24px] bg-[var(--bg-light)] px-6 py-10 text-center">
                 <div className="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[var(--white)] text-[var(--primary)] shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
                   <MessageSquareText className="h-6 w-6" />
                 </div>
-                <h3 className="mt-5 text-lg font-bold text-[var(--text-dark)]">등록된 상담 신청이 없습니다</h3>
+                <h3 className="mt-5 text-lg font-bold text-[var(--text-dark)]">
+                  등록된 상담 신청이 없습니다
+                </h3>
                 <p className="mt-2 text-sm leading-7 text-[var(--text-muted)]">
-                  새로운 문의가 접수되면 이 영역에 정리된 리스트와 파일 다운로드 버튼이 함께 표시됩니다.
+                  새로운 문의가 접수되면 이 영역에 정리된 리스트와 파일 다운로드
+                  버튼이 함께 표시됩니다.
                 </p>
               </div>
             </div>
@@ -239,8 +271,12 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
                           <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
                             #{item.id}
                           </p>
-                          <h3 className="mt-1 text-lg font-extrabold text-[var(--text-dark)]">{item.name}</h3>
-                          <p className="mt-1 text-sm font-semibold text-[var(--primary-dark)]">{item.phone}</p>
+                          <h3 className="mt-1 text-lg font-extrabold text-[var(--text-dark)]">
+                            {item.name}
+                          </h3>
+                          <p className="mt-1 text-sm font-semibold text-[var(--primary-dark)]">
+                            {item.phone}
+                          </p>
                         </div>
                         <span className="rounded-full bg-[var(--accent-light)] px-3 py-1.5 text-xs font-bold text-[var(--accent)]">
                           {item.service_type || "미분류"}
@@ -249,12 +285,20 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
 
                       <div className="mt-4 grid gap-3 text-sm text-[var(--text-body)]">
                         <div className="rounded-[16px] bg-[var(--white)] px-4 py-3">
-                          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">회사 / 이메일</p>
-                          <p className="mt-2 leading-6">{item.company || "-"}</p>
-                          <p className="text-[var(--text-muted)]">{item.email || "-"}</p>
+                          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                            회사 / 이메일
+                          </p>
+                          <p className="mt-2 leading-6">
+                            {item.company || "-"}
+                          </p>
+                          <p className="text-[var(--text-muted)]">
+                            {item.email || "-"}
+                          </p>
                         </div>
                         <div className="rounded-[16px] bg-[var(--white)] px-4 py-3">
-                          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">상담 내용</p>
+                          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                            상담 내용
+                          </p>
                           <p className="mt-2 whitespace-pre-wrap break-words leading-6 text-[var(--text-body)]">
                             {item.message || "문의 내용 없음"}
                           </p>
@@ -295,28 +339,28 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
                   <table className="min-w-[1100px] w-full border-separate border-spacing-0 text-left">
                     <thead>
                       <tr>
-                        <th className="rounded-l-[18px] bg-[var(--bg-light)] px-5 py-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                        <th className="rounded-l-[18px] bg-[var(--bg-light)] pl-5 pr-5 pt-5 pb-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
                           ID
                         </th>
-                        <th className="bg-[var(--bg-light)] px-5 py-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                        <th className="bg-[var(--bg-light)] pl-5 pr-5 pt-5 pb-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
                           이름
                         </th>
-                        <th className="bg-[var(--bg-light)] px-5 py-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                        <th className="bg-[var(--bg-light)] pl-5 pr-5 pt-5 pb-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
                           연락처
                         </th>
-                        <th className="bg-[var(--bg-light)] px-5 py-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                        <th className="bg-[var(--bg-light)] pl-5 pr-5 pt-5 pb-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
                           회사 / 이메일
                         </th>
-                        <th className="bg-[var(--bg-light)] px-5 py-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                        <th className="bg-[var(--bg-light)] pl-5 pr-5 pt-5 pb-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
                           문의 유형
                         </th>
-                        <th className="bg-[var(--bg-light)] px-5 py-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                        <th className="bg-[var(--bg-light)] pl-5 pr-5 pt-5 pb-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
                           상담 내용
                         </th>
-                        <th className="bg-[var(--bg-light)] px-5 py-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                        <th className="bg-[var(--bg-light)] pl-5 pr-5 pt-5 pb-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
                           첨부파일
                         </th>
-                        <th className="rounded-r-[18px] bg-[var(--bg-light)] px-5 py-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
+                        <th className="rounded-r-[18px] bg-[var(--bg-light)] pl-5 pr-5 pt-5 pb-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[var(--text-light)]">
                           신청 일시
                         </th>
                       </tr>
@@ -328,35 +372,44 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
 
                         return (
                           <tr key={item.id} className="group">
-                            <td className="border-b border-[rgba(228,232,239,0.85)] px-5 py-5 align-top text-sm font-semibold text-[var(--text-light)] transition-colors group-hover:bg-[#f7fcf9]">
+                            <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top text-sm font-semibold text-[var(--text-light)] transition-colors group-hover:bg-[#f7fcf9]">
                               #{item.id}
                             </td>
-                            <td className="border-b border-[rgba(228,232,239,0.85)] px-5 py-5 align-top transition-colors group-hover:bg-[#f7fcf9]">
+                            <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top transition-colors group-hover:bg-[#f7fcf9]">
                               <div>
-                                <p className="font-bold text-[var(--text-dark)]">{item.name}</p>
-                                <p className="mt-1 text-xs text-[var(--text-muted)]">{item.company || "회사 정보 없음"}</p>
+                                <p className="font-bold text-[var(--text-dark)]">
+                                  {item.name}
+                                </p>
+                                <p className="mt-1 text-xs text-[var(--text-muted)]">
+                                  {item.company || "회사 정보 없음"}
+                                </p>
                               </div>
                             </td>
-                            <td className="border-b border-[rgba(228,232,239,0.85)] px-5 py-5 align-top text-sm font-bold text-[var(--primary-dark)] transition-colors group-hover:bg-[#f7fcf9]">
+                            <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top text-sm font-bold text-[var(--primary-dark)] transition-colors group-hover:bg-[#f7fcf9]">
                               {item.phone}
                             </td>
-                            <td className="border-b border-[rgba(228,232,239,0.85)] px-5 py-5 align-top text-sm leading-6 text-[var(--text-body)] transition-colors group-hover:bg-[#f7fcf9]">
+                            <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top text-sm leading-6 text-[var(--text-body)] transition-colors group-hover:bg-[#f7fcf9]">
                               <p>{item.company || "-"}</p>
-                              <p className="text-[var(--text-muted)]">{item.email || "-"}</p>
+                              <p className="text-[var(--text-muted)]">
+                                {item.email || "-"}
+                              </p>
                             </td>
-                            <td className="border-b border-[rgba(228,232,239,0.85)] px-5 py-5 align-top transition-colors group-hover:bg-[#f7fcf9]">
+                            <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top transition-colors group-hover:bg-[#f7fcf9]">
                               <span className="inline-flex rounded-full bg-[var(--accent-light)] px-3 py-1.5 text-xs font-bold text-[var(--accent)]">
                                 {item.service_type || "미분류"}
                               </span>
                             </td>
-                            <td className="border-b border-[rgba(228,232,239,0.85)] px-5 py-5 align-top text-sm text-[var(--text-body)] transition-colors group-hover:bg-[#f7fcf9]">
+                            <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top text-sm text-[var(--text-body)] transition-colors group-hover:bg-[#f7fcf9]">
                               <div className="max-w-[24rem]">
-                                <p className="line-clamp-3 whitespace-pre-wrap break-words leading-6" title={item.message || ""}>
+                                <p
+                                  className="line-clamp-3 whitespace-pre-wrap break-words leading-6"
+                                  title={item.message || ""}
+                                >
                                   {item.message || "문의 내용 없음"}
                                 </p>
                               </div>
                             </td>
-                            <td className="border-b border-[rgba(228,232,239,0.85)] px-5 py-5 align-top transition-colors group-hover:bg-[#f7fcf9]">
+                            <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top transition-colors group-hover:bg-[#f7fcf9]">
                               {files.length > 0 ? (
                                 <div className="flex max-w-[13rem] flex-wrap gap-2">
                                   {files.map((file, index) => (
@@ -378,10 +431,12 @@ export function ConsulationList({ consultations, onLogout }: ConsulationListProp
                                   {attachmentCount}개
                                 </span>
                               ) : (
-                                <span className="text-sm text-[var(--text-light)]">-</span>
+                                <span className="text-sm text-[var(--text-light)]">
+                                  -
+                                </span>
                               )}
                             </td>
-                            <td className="border-b border-[rgba(228,232,239,0.85)] px-5 py-5 align-top text-sm font-medium text-[var(--text-muted)] transition-colors group-hover:bg-[#f7fcf9]">
+                            <td className="border-b border-[rgba(228,232,239,0.85)] pl-5 pr-5 pt-5 pb-5 align-top text-sm font-medium text-[var(--text-muted)] transition-colors group-hover:bg-[#f7fcf9]">
                               {formatDate(item.created_at)}
                             </td>
                           </tr>

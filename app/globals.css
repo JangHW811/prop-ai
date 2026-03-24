@@ -37,7 +37,9 @@
 *::after {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
+  /* Removed global padding reset to allow utility classes (e.g., Tailwind px-*, py-*)
+     to apply correctly. Tailwind utilities will manage padding on elements
+     as needed without being overridden by a global reset. */
 }
 
 html {
